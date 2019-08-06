@@ -22,7 +22,7 @@ const assert = require('nanoassert')
 // Private keys can be computed as H(·) * x and used for signing
 module.exports = {
   tweak (data) {
-    assert(data.id.byteLength === 32, 'data.nonce must be 32 bytes')
+    assert(data.id.byteLength === 32, 'data.id must be 32 bytes')
     assert(typeof data.counter === 'number', 'data.counter must be a number')
     assert(data.counter === (data.counter >>> 0), 'data.counter must be a uint32')
     assert(typeof data.threshold === 'number', 'data.threshold must be a number')
