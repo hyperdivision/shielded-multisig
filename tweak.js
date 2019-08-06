@@ -30,10 +30,10 @@ module.exports = {
     assert(data.nonce.byteLength === 32, 'data.nonce must be 32 bytes')
 
     const output = Buffer.alloc(32)
-    const state = Buffer.alloc(35)
-    state.set(data.id)
-    state.writeUInt32LE(data.counter, 32)
-    state.writeUInt32LE(data.threshold, 35)
+    const state = Buffer.alloc(32 + 4 + 1)
+    state.set(data.id, 0)
+    state.writeUInt32LE(data.counter, 0 + 32)
+    state.writeUInt8(data.threshold, 0 + 32 + 4)
 
     sodium.crypto_generichash(output, state, data.nonce)
     return output
