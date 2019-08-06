@@ -1,4 +1,6 @@
-# `shielded-multisig`
+# `@hyperdivision/shielded-multisig`
+
+[![Build Status](https://travis-ci.com/hyperdivision/vhs-tape.svg?branch=master)](https://travis-ci.com/hyperdivision/vhs-tape)
 
 > Shielded Bitcoin Multisig using Public Key Tweaking
 
