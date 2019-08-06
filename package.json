@@ -1,6 +1,6 @@
 {
   "name": "@hyperdivision/shielded-multisig",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shielded Bitcoin Multisig using Public Key tweaking",
   "main": "index.js",
   "publishConfig": {
