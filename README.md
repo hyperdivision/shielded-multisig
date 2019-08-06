@@ -26,7 +26,7 @@ id.writeUInt32LE(1) // Just use the Uint32LE value of `1`
 const { tweak, address } = shield.address({ id, counter: 0 }, masterKeys, threshold)
 
 // deepEqual(tweakS, tweak) === true
-const { tweakS, script } = shield.redeemScript(tweak, masterKeys, threshold)
+const { tweak: tweakS, script } = shield.redeemScript(tweak, masterKeys, threshold)
 ```
 
 Signing:
