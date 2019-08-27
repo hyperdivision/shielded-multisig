@@ -4,7 +4,7 @@
   "description": "Shielded Bitcoin Multisig using Public Key tweaking",
   "main": "index.js",
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "dependencies": {
     "bcoin": "bcoin-org/bcoin#75722469f3a3963bb2163bbc4edc763e6bdcf55f",
