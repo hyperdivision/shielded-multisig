@@ -4,7 +4,7 @@
 
 > Shielded Bitcoin Multisig using Public Key Tweaking
 
-Create multisig wallets based on a set up public keys without access to secret
+Create multisig wallets based on a set of public keys without access to secret
 keys or revealing public keys.
 
 ## Usage
