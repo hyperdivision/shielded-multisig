@@ -18,11 +18,11 @@ const masterKeys = [
 // ]
 
 test('tweak', function (assert) {
-  const { tweak, address } = shield.address({ id: Buffer.alloc(32, 'hello world'), counter: 0 }, masterKeys, 3)
-  const { tweak: tweakS, script } = shield.redeemScript(tweak, masterKeys, 3)
+  const { tweakData, address } = shield.address({ id: Buffer.alloc(32, 'hello world'), counter: 0 }, masterKeys, 3)
+  const { tweakData: tweakDataS, script } = shield.redeemScript(tweakData, masterKeys, 3)
 
   assert.ok(address)
   assert.ok(script)
-  assert.same(tweak, tweakS)
+  assert.same(tweakData, tweakDataS)
   assert.end()
 })

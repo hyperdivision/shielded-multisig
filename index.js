@@ -1,17 +1,18 @@
-const tweaker = require('./tweak')
+const algorithm = require('./tweak')
 const { Script, Address } = require('bcoin')
 const sodium = require('sodium-native')
+const assert = require('nanoassert')
 
-function address (userInfo, masterKeys, threshold) {
-  const { tweak, script } = redeemScript(userInfo, masterKeys, threshold)
+function address (data, masterKeys, threshold) {
+  const { tweakData, script } = redeemScript(data, masterKeys, threshold)
 
   return {
-    tweak,
+    tweakData,
     address: computeNestedAddress(script)
   }
 }
 
-function redeemScript (userInfo, masterKeys, threshold) {
+function redeemScript ({ id, counter }, masterKeys, threshold) {
   const m = threshold
   const n = masterKeys.length
 
@@ -20,9 +21,9 @@ function redeemScript (userInfo, masterKeys, threshold) {
   const nonce = Buffer.alloc(32)
   sodium.crypto_generichash_batch(nonce, masterKeys.sort(Buffer.compare))
 
-  const tweak = {
-    id: userInfo.id,
-    counter: userInfo.counter,
+  const tweakData = {
+    id: id,
+    counter: counter,
     threshold,
     nonce
   }
@@ -30,16 +31,17 @@ function redeemScript (userInfo, masterKeys, threshold) {
   // recurse in case we get a bad derived key. Will happen very rarely, so
   // it will not exhaust the stack
   try {
-    var derivedKeys = masterKeys.map(k => tweaker.tweakPublic(tweak, k))
+    var derivedKeys = masterKeys.map(k => algorithm.tweakPublic(tweakData, k))
   } catch (ex) {
     console.error(ex)
     if (ex.name === 'AssertionError') throw ex
-    userInfo.counter++
-    return redeemScript(userInfo, masterKeys, threshold)
+    tweakData.counter++
+    assert(tweakData.counter === (tweakData.counter & 0xffffffff), 'tweakData.counter overflowed 32-bits')
+    return redeemScript(tweakData, masterKeys, threshold)
   }
 
   return {
-    tweak,
+    tweakData,
     // Will generate a new Multisig script
     script: Script.fromMultisig(m, n, derivedKeys)
   }

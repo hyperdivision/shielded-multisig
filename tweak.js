@@ -21,29 +21,29 @@ const assert = require('nanoassert')
 //
 // Private keys can be computed as H(·) * x and used for signing
 module.exports = {
-  tweak (data) {
-    assert(data.id.byteLength === 32, 'data.id must be 32 bytes')
-    assert(typeof data.counter === 'number', 'data.counter must be a number')
-    assert(data.counter === (data.counter >>> 0), 'data.counter must be a uint32')
-    assert(typeof data.threshold === 'number', 'data.threshold must be a number')
-    assert(data.threshold === (data.threshold & 0xff >>> 0), 'data.threshold must be a uint8')
-    assert(data.nonce.byteLength === 32, 'data.nonce must be 32 bytes')
+  tweak (tweakData) {
+    assert(tweakData.id.byteLength === 32, 'tweakData.id must be 32 bytes')
+    assert(typeof tweakData.counter === 'number', 'tweakData.counter must be a number')
+    assert(tweakData.counter === (tweakData.counter >>> 0), 'tweakData.counter must be a uint32')
+    assert(typeof tweakData.threshold === 'number', 'tweakData.threshold must be a number')
+    assert(tweakData.threshold === (tweakData.threshold & 0xff >>> 0), 'tweakData.threshold must be a uint8')
+    assert(tweakData.nonce.byteLength === 32, 'tweakData.nonce must be 32 bytes')
 
     const output = Buffer.alloc(32)
     const state = Buffer.alloc(32 + 4 + 1)
-    state.set(data.id, 0)
-    state.writeUInt32LE(data.counter, 0 + 32)
-    state.writeUInt8(data.threshold, 0 + 32 + 4)
+    state.set(tweakData.id, 0)
+    state.writeUInt32LE(tweakData.counter, 0 + 32)
+    state.writeUInt8(tweakData.threshold, 0 + 32 + 4)
 
-    sodium.crypto_generichash(output, state, data.nonce)
+    sodium.crypto_generichash(output, state, tweakData.nonce)
     return output
   },
 
-  tweakPublic (data, publicKey) {
-    return curve.publicKeyTweakMul(publicKey, this.tweak(data))
+  tweakPublic (tweakData, publicKey) {
+    return curve.publicKeyTweakMul(publicKey, this.tweak(tweakData))
   },
 
-  tweakPrivate (data, secretKey) {
-    return curve.privateKeyTweakMul(secretKey, this.tweak(data))
+  tweakPrivate (tweakData, secretKey) {
+    return curve.privateKeyTweakMul(secretKey, this.tweak(tweakData))
   }
 }
