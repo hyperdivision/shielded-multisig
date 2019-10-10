@@ -90,6 +90,10 @@ can be encoded as desired.
 
 Exactly the same as above, but return a `bcoin` `Script` instead of an `Address`.
 
+### `const areValid = shield.validateMasterkeys(masterKeys)`
+
+Validate `masterKeys` for being points on the curve (ie valid keys)
+
 ### `const tweakedPublicKey = algorithm.tweakPublic(tweakData, publicKey)`
 
 Low-level facility to compute the tweaked public key. Note that you must provide

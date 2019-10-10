@@ -1,7 +1,12 @@
+const curve = require('secp256k1')
 const algorithm = require('./tweak')
 const { Script, Address } = require('bcoin')
 const sodium = require('sodium-native')
 const assert = require('nanoassert')
+
+function validateMasterkeys (masterKeys) {
+  return masterKeys.every(k => Buffer.isBuffer(k) && curve.publicKeyVerify(k))
+}
 
 function address (data, masterKeys, threshold) {
   const { tweakData, script } = redeemScript(data, masterKeys, threshold)
@@ -59,5 +64,6 @@ function computeNestedAddress (script) {
 
 module.exports = {
   address,
-  redeemScript
+  redeemScript,
+  validateMasterkeys
 }
