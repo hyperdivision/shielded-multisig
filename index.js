@@ -1,6 +1,6 @@
 const curve = require('secp256k1')
 const algorithm = require('./tweak')
-const { Script, Address } = require('bcoin')
+const script = require('./script')
 const sodium = require('sodium-native')
 const assert = require('nanoassert')
 
@@ -13,7 +13,7 @@ function address (data, masterKeys, threshold) {
 
   return {
     tweakData,
-    address: computeNestedAddress(script)
+    address: script.computeNestedAddress(script)
   }
 }
 
@@ -48,18 +48,8 @@ function redeemScript ({ id, counter }, masterKeys, threshold) {
   return {
     tweakData,
     // Will generate a new Multisig script
-    script: Script.fromMultisig(m, n, derivedKeys)
+    script: script.fromMultisig(m, n, derivedKeys)
   }
-}
-
-// This function unfortunately only exists on bcoin.KeyRing and we don't want
-// to use that. So this does P2SH(P2WSH(m of n))
-function computeNestedAddress (script) {
-  const scriptHash = script.sha256()
-  const p2sh = Script.fromProgram(0, scriptHash)
-  const p2shHash = p2sh.hash160()
-
-  return Address.fromScripthash(p2shHash)
 }
 
 module.exports = {
