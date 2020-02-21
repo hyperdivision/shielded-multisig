@@ -7,7 +7,7 @@
     "access": "public"
   },
   "dependencies": {
-    "bcoin": "bcoin-org/bcoin#75722469f3a3963bb2163bbc4edc763e6bdcf55f",
+    "btc-script-utils": "^1.0.0",
     "nanoassert": "^2.0.0",
     "secp256k1": "^3.7.1",
     "sodium-native": "^2.4.5"
