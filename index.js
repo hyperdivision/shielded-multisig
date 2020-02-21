@@ -1,6 +1,6 @@
 const curve = require('secp256k1')
 const algorithm = require('./tweak')
-const script = require('./script')
+const script = require('btc-script-utils')
 const sodium = require('sodium-native')
 const assert = require('nanoassert')
 
